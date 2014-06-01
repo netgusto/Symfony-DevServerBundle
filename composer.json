@@ -1,0 +1,28 @@
+{
+    "name": "netgusto/devserver-bundle",
+    "type": "symfony-bundle",
+    "description": "Development server console command with subdomain support, and automatic assets compilation.",
+    "keywords": ["symfony", "development", "server", "subdomain", "assets"],
+    "homepage": "https://github.com/netgusto/Symfony-DevServerBundle",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Net Gusto",
+          "email": "contact@netgusto.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.4"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": { "Netgusto\\DevServerBundle": "" }
+    },
+    "target-dir": "Netgusto/DevServerBundle",
+    "extra": {
+    }
+}
