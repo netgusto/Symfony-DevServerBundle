@@ -14,7 +14,7 @@ class DevServerCommand extends ContainerAwareCommand {
     
     protected function configure() {
         $this
-            ->setName('ng:server')
+            ->setName('server:dev')
             ->setDescription('Development server with subdomain support, and automatic assets compilation.');
     }
 
