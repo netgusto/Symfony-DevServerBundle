@@ -20,6 +20,18 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('netgusto_dev_server');
 
+        $rootNode
+            ->children()
+                ->arrayNode('tasks')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('path')->defaultValue(null)->end()
+                            ->scalarNode('command')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.

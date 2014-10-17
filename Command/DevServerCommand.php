@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\ProcessUtils;
 use Symfony\Component\Process\Process;
 
 class DevServerCommand extends ContainerAwareCommand {
@@ -21,15 +22,21 @@ class DevServerCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $container = $this->getContainer();
-        $em = $container->get('doctrine')->getManager();
 
-        $server = new Process("php app/console server:run 0.0.0.0:8000");
-        $server->setTimeout(null);
-        $processes[] = $server;
-        
-        $watch = new Process("php app/console assetic:dump --watch");
-        $watch->setTimeout(null);
-        $processes[] = $watch;
+        $serverconfig = $container->getParameter('netgusto_dev_server.config');
+        foreach($serverconfig['tasks'] as $task) {
+
+            $command = $task['command'];
+
+            if(!is_null($task['path'])) {
+                $command = 'cd ' . ProcessUtils::escapeArgument($task['path']) . ';' . $command;
+            }
+
+            $process = new Process($command);
+            $process->setTimeout(null);
+
+            $processes[] = $process;
+        }
 
         $sleep = 0.25;
         $output->writeln('<info>Server and assets watch started.</info>');
@@ -50,7 +57,6 @@ class DevServerCommand extends ContainerAwareCommand {
                 }
 
                 if (!$processes[$i]->isRunning()) {
-                    // All processes are timed out after 2 seconds and restarted afterwards
                     $processes[$i]->restart();
                     $output->writeln('<info>Restart</info>');
                 }
