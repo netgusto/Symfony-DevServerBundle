@@ -1,4 +1,4 @@
-# Development server console command with subdomain support, and automatic assets compilation for Symfony 2
+# Development server console command with custom tasks support
 
 ## Install
 
@@ -20,8 +20,20 @@ $bundles = array(
 );
 ```
 
+## Configure
+
+In `app/config.yml`:
+
+```yaml
+netgusto_dev_server:
+    tasks:
+        - { command: php app/console server:run 0.0.0.0:8000 }
+        - { command: php app/console assetic:dump --watch }
+        - { command: ember serve, path: web/apps/calclient }
+```
+
 ## Use
 
 ```bash
-php app/console ng:server
+php app/console server:dev
 ```

@@ -23,8 +23,5 @@ class NetgustoDevServerExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('netgusto_dev_server.config', $config);
-
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
     }
 }
